@@ -29,8 +29,8 @@ public class StringUtil {
         boolean onlyRegex = pattern.matcher(text).matches();
         if(onlyRegex){return null;}
         //String textNoWhitespace = text.replaceAll("\\s+", "");
-
-        String[] answer = text.trim().split("[,.:;?!]+");
+        text = text.trim();
+        String[] answer = text.split("[,.:;?! ]+");
         for(int i=0; i<answer.length; i++){
             answer[i]= answer[i].trim();
         }
