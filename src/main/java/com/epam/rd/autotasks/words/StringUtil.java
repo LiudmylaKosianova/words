@@ -1,6 +1,7 @@
 package com.epam.rd.autotasks.words;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class StringUtil {
     public static int countEqualIgnoreCaseAndSpaces(String[] words, String sample) {
@@ -18,7 +19,22 @@ public class StringUtil {
     }
 
     public static String[] splitWords(String text) {
-        throw new UnsupportedOperationException();
+
+        //throw new UnsupportedOperationException();
+        if(text == null || text.length()==0){
+            return null;
+        }
+        String regex = "^[,.;: ?!]*$";
+        Pattern pattern = Pattern.compile(regex);
+        boolean onlyRegex = pattern.matcher(text).matches();
+        if(onlyRegex){return null;}
+        //String textNoWhitespace = text.replaceAll("\\s+", "");
+
+        String[] answer = text.trim().split("[,.:;?!]+");
+        for(int i=0; i<answer.length; i++){
+            answer[i]= answer[i].trim();
+        }
+        return answer;
     }
 
     public static String convertPath(String path, boolean toWin) {
@@ -39,9 +55,10 @@ public class StringUtil {
         System.out.println("Must be: " + expectedCount);
 
         System.out.println("Test 2: splitWords");
-        String text = "   ,, first, second!!!! third";
+        String text = "   ,,, first, second!!!! third??";
         String[] splitResult = splitWords(text);
         System.out.println("Result : " + Arrays.toString(splitResult));
+        System.out.println("number of elements -"+splitResult.length);
         String[] expectedSplit = new String[]{"first", "second", "third"};
         System.out.println("Must be: " + Arrays.toString(expectedSplit));
 
