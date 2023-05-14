@@ -4,7 +4,17 @@ import java.util.Arrays;
 
 public class StringUtil {
     public static int countEqualIgnoreCaseAndSpaces(String[] words, String sample) {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        if(words == null || sample == null){
+            return 0;
+        }
+        int count = 0;
+        for(String word:words){
+            if(word.trim().equalsIgnoreCase(sample.trim())){
+                count++;
+            }
+        }
+        return count;
     }
 
     public static String[] splitWords(String text) {
