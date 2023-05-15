@@ -63,54 +63,54 @@ For empty string, `null` string, and string consisting only of separating charac
         String regex2 = ".*C:.*C:.*";//I check if there are more than one C:
         String regex3 = ".+C:";//I check if C: is not at the start
         String regex4 = ".+~";//I check if ~ is not at the start
-        //String regex5 = ".*~.*\\.*";//I check if ~ mixed with \
+        String regex5 = ".*~.*\\\\";//I check if ~ mixed with \
         String regex6 = ".*C:.*/.*";//I check if C: mixed with /
-        //String regex7 = ".*\\.*/.*";//I check if \  mixed with /
+        String regex7 = ".*\\\\.*/.*";//I check if \  mixed with /
 
 
         Pattern pattern1 = Pattern.compile(regex1);
         Pattern pattern2 = Pattern.compile(regex2);
         Pattern pattern3 = Pattern.compile(regex3);
         Pattern pattern4 = Pattern.compile(regex4);
-        //Pattern pattern5 = Pattern.compile(regex5);
+        Pattern pattern5 = Pattern.compile(regex5);
         Pattern pattern6 = Pattern.compile(regex6);
-        //Pattern pattern7 = Pattern.compile(regex7);
+        Pattern pattern7 = Pattern.compile(regex7);
         if(pattern1.matcher(path).matches() || pattern2.matcher(path).matches()
         || pattern3.matcher(path).matches() || pattern4.matcher(path).matches()
-        //|| pattern5.matcher(path).matches()
+        || pattern5.matcher(path).matches()
         || pattern6.matcher(path).matches()
-        //|| pattern7.matcher(path).matches()
+        || pattern7.matcher(path).matches()
         ){
             return null;
         }
 
         //I check if the path already corresponds to the required parameters and return path
-        String regex00 = ".*\\*.*";
-        String regex01 = ".*/*.*";
-        String regex02 = "[^\\/]*";
-        Pattern windows = Pattern.compile(regex00);
-        Pattern unix = Pattern.compile(regex01);
-        Pattern fileName = Pattern.compile(regex02);
-
-        if( (windows.matcher(path).matches() && toWin) || (unix.matcher(path).matches() && !toWin) || fileName.matcher(path).matches() ){
-            return path;
-        }
+//        String regex00 = ".*\\\\";
+//        String regex01 = ".*/*.*";
+//        String regex02 = "[^\\\\/]*";
+//        Pattern windows = Pattern.compile(regex00);
+//        Pattern unix = Pattern.compile(regex01);
+//        Pattern fileName = Pattern.compile(regex02);
+//
+//        if( (windows.matcher(path).matches() && toWin)
+//        || (unix.matcher(path).matches() && !toWin)
+//        || fileName.matcher(path).matches() ){ return path;}
 
         String answer = path;
         if(!toWin){
-            if(answer.startsWith("C:\\User")){
-                answer = answer.replace("C:\\User", "~");
-            }else if(answer.startsWith("C:\\")){
+            if(answer.startsWith("C:\\\\User")){
+                answer = answer.replace("C:\\\\User", "~");
+            }else if(answer.startsWith("C:\\\\")){
                 answer = answer.replaceFirst("C:\\\\", "/");
             }
-            answer = answer.replaceAll("\\", "/");
-        }else{
+            answer = answer.replaceAll("\\\\", "/");
+        }else if(toWin){
             if(answer.startsWith("~")){
-                answer = answer.replaceFirst("~", "C:\\User");
+                answer = answer.replaceFirst("~", "C:\\\\User");
             }else if(answer.startsWith("/")){
-                answer = answer.replace("/", "C:\\");
+                answer = answer.replaceFirst("/", "C:\\\\");
             }
-            answer = answer.replaceAll("/", "\\");
+            answer = answer.replaceAll("/", "\\\\");
         }
 
         return answer;
